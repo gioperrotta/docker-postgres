@@ -1,0 +1,32 @@
+version: "3.8"
+services:
+  dcs-postgres:
+    image: postgres:14
+    container_name: dcs-postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: Gp689356
+      POSTGRES_USER: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    networks:
+      - postgres-network
+
+  dcs-adminer:
+    image: adminer
+    container_name: dcs-adminer
+    restart: always
+    depends_on:
+      - dcs-postgres
+    ports:
+      - 8080:8080
+    volumes:
+      - ./data/pgadmin:/var/lib/pgadmin
+    networks:
+      - postgres-network
+
+networks: 
+  postgres-network:
+    driver: bridge
